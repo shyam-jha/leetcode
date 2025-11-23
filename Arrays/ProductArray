@@ -1,0 +1,41 @@
+// Product of Array Except Self
+// Given an integer array nums, return an array answer such that answer[i] is equal to the product
+// of all the elements of nums except nums[i].
+// The product of any prefix or suffix of nums is guaranteed to fit in a 32-bit integer.
+// You must write an algorithm that runs in O(n) time and without using the division operation
+// Link: https://leetcode.com/problems/product-of-array-except-self/
+
+// Supposing input [1,2,3,4]
+
+class Solution
+{
+public:
+    vector<int> productExceptSelf(vector<int> &nums)
+    {
+        int s = nums.size();
+        if (s == 0)
+        {
+            return nums;
+        }
+        vector<int> result(s, 1);
+
+        // we calculate product from left side
+        result[0] = 1;
+        for (int i = 1; i < s; i++)
+        {
+            result[i] = result[i - 1] * nums[i - 1];
+        }
+        //[1,1,2,6]
+
+        // now multiplying from left
+        int right = 1;
+        for (int i = s - 1; i >= 0; i--)
+        {
+            result[i] *= right;
+            right *= nums[i];
+        }
+        //[(6*1) 6,(2*4) 8, (1*[4*3]12) 12, (1* [4*3*2] 24) 24] i wrote this is reverse order for understanding only
+
+        return result;
+    }
+};
